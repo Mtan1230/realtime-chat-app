@@ -7,6 +7,7 @@ const workspaceSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    Unique: true
   },
   owner: {
     type: Types.ObjectId,

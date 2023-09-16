@@ -5,7 +5,7 @@ const resolvers = {
   Query: {
     me: async (_, __, context) => {
       if (context.user) {
-        return User.findById(context.user._id);
+        return await User.findById(context.user._id).populate('workspaces');
       }
       throw AuthenticationError;
     },
@@ -34,6 +34,21 @@ const resolvers = {
       const user = await User.create({ firstName, lastName, email, password });
       const token = signToken(user);
       return { token, user };
+    },
+
+    createWorkspace: async (_, { name }, context) => {
+      if (context.user) {
+        const workspace = await Workspace.create({
+          name,
+          owner: context.user._id,
+        });
+        await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { workspaces: workspace._id } }
+        );
+        return workspace;
+      }
+      throw AuthenticationError;
     },
   },
 };

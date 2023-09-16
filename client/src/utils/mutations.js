@@ -31,3 +31,12 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const CREATE_WORKSPACE = gql`
+  mutation createWorkspace($name: String!) {
+    createWorkspace(name: $name) {
+      _id
+      name
+    }
+  }
+`;

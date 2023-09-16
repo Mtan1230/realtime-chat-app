@@ -1,16 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_ME = gql`
-  query getMe() {
+  query me {
      me {
+      _id
       workspaces {
         _id
         name
-        channels {
-          _id
-          name
-          public
-        }
       }
     }
   }

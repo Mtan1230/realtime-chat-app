@@ -12,7 +12,7 @@ const typeDefs = `#graphql
   type Workspace {
     _id: ID
     name: String
-    owner: User
+    owner: ID
     channels: [Channel]!
     users: [User!]!
   }
@@ -46,6 +46,7 @@ const typeDefs = `#graphql
   type Mutation {
     login(email: String!, password: String!): Auth
     signup(firstName: String!, lastName: String! email: String!, password: String!): Auth
+    createWorkspace(name: String!): Workspace
   }
 `;
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import WorkspaceList from '../components/WorkspaceList.jsx';
 
 const Homepage = () => {
   const token = localStorage.getItem('id_token');
@@ -10,12 +11,12 @@ const Homepage = () => {
 
   return (
     <div id='home'>
-      {token ? (
-        <div>Homepage {token}</div>
-      ) : (
-        <Container>
-          <Row className='vh-100 justify-content-center align-items-center'>
-            <Col xs={12} md={6}>
+      <Container>
+        <Row className='vh-100 justify-content-center align-items-center'>
+          <Col xs={12} md={6}>
+            {token ? (
+              <WorkspaceList />
+            ) : (
               <Tabs
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
@@ -28,10 +29,10 @@ const Homepage = () => {
                   <SignupForm />
                 </Tab>
               </Tabs>
-            </Col>
-          </Row>
-        </Container>
-      )}
+            )}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
