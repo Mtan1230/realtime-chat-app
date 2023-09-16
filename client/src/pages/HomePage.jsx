@@ -5,24 +5,24 @@ import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 
 const Homepage = () => {
-  const [login, setLogin] = useState(false);
+  const token = localStorage.getItem('id_token');
   const [key, setKey] = useState('login');
 
   return (
     <div id='home'>
-      {login ? (
-        <div>Homepage</div>
+      {token ? (
+        <div>Homepage {token}</div>
       ) : (
         <Container>
           <Row className='vh-100 justify-content-center align-items-center'>
-            <Col xs={12} md={6} >
+            <Col xs={12} md={6}>
               <Tabs
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
                 className='mb-3'
               >
                 <Tab eventKey='login' title='Login'>
-                  <LoginForm setLogin={setLogin}/>
+                  <LoginForm />
                 </Tab>
                 <Tab eventKey='signup' title='Signup'>
                   <SignupForm />

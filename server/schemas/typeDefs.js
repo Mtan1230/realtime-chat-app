@@ -1,10 +1,11 @@
 const typeDefs = `#graphql
   type User {
     _id: ID
-    username: String
+    firstName: String
+    lastName: String
     email: String
-    image: String,
-    googleId: String,
+    image: String
+    googleId: String
     workspaces: [Workspace]!
   }
 
@@ -44,7 +45,7 @@ const typeDefs = `#graphql
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    signup(username: String!, email: String!, password: String!): Auth
+    signup(firstName: String!, lastName: String! email: String!, password: String!): Auth
   }
 `;
 

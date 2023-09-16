@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Form, Button } from 'react-bootstrap';
 
-const LoginForm = ({ setLogin }) => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,7 +17,6 @@ const LoginForm = ({ setLogin }) => {
     e.preventDefault();
     // Add your login logic here, e.g., sending a request to your backend API
     console.log('Form Data:', formData);
-    setLogin(true);
   };
 
   return (
