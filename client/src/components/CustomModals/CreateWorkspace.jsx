@@ -25,7 +25,7 @@ const CustomModal = () => {
       },
     });
     handleClose();
-    window.location.assign('/');
+    window.location.assign(`/workspace/${response.data.createWorkspace._id}`);
   };
 
   return (

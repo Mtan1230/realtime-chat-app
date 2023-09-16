@@ -16,7 +16,7 @@ const WorkspaceList = () => {
         <ListGroup>
           {data?.me.workspaces.map((w) => {
             return (
-              <ListGroup.Item action href={`/${w._id}`} key={w.name}>
+              <ListGroup.Item action href={`/workspace/${w._id}`} key={w.name}>
                 {w.name}
               </ListGroup.Item>
             );
