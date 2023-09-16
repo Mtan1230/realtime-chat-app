@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../../utils/mutations';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -8,15 +10,25 @@ const LoginForm = () => {
     password: '',
   });
 
+  const [login] = useMutation(LOGIN);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here, e.g., sending a request to your backend API
-    console.log('Form Data:', formData);
+    const response = await login({
+      variables: {
+        email: formData.email,
+        password: formData.password,
+      },
+    });
+    if (response.data.login.token) {
+      localStorage.setItem('id_token', response.data.login.token);
+      window.location.assign('/');
+    }
   };
 
   return (
