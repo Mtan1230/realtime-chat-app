@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SIGNUP } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -12,7 +13,7 @@ const SignupForm = () => {
     password: '',
   });
 
-  const [signup] = useMutation(SIGNUP);
+  const [signup, { error }] = useMutation(SIGNUP);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,17 +22,19 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await signup({
-      variables: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-      },
-    });
-    if (response.data.signup.token) {
-      localStorage.setItem('id_token', response.data.signup.token);
-      window.location.assign('/');
+    try {
+      const response = await signup({
+        variables: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        },
+      });
+      const token = response.data.signup.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -84,6 +87,8 @@ const SignupForm = () => {
           required
         />
       </Form.Group>
+
+      {error && <h4 className='text-danger'>This email address has been registered</h4>}
 
       <Button variant='primary' type='submit'>
         Sign Up

@@ -4,9 +4,10 @@ import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import WorkspaceList from '../components/WorkspaceList.jsx';
+import Auth from '../utils/auth';
 
 const Homepage = () => {
-  const token = localStorage.getItem('id_token');
+  const login = Auth.loggedIn();
   const [key, setKey] = useState('login');
 
   return (
@@ -14,7 +15,7 @@ const Homepage = () => {
       <Container>
         <Row className='vh-100 justify-content-center align-items-center'>
           <Col xs={12} md={6}>
-            {token ? (
+            {login ? (
               <WorkspaceList />
             ) : (
               <Tabs

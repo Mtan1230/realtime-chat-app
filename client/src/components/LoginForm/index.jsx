@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 
 import { Form, Button } from 'react-bootstrap';
 
@@ -10,7 +11,7 @@ const LoginForm = () => {
     password: '',
   });
 
-  const [login] = useMutation(LOGIN);
+  const [login, { error }] = useMutation(LOGIN);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,15 +20,17 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await login({
-      variables: {
-        email: formData.email,
-        password: formData.password,
-      },
-    });
-    if (response.data.login.token) {
-      localStorage.setItem('id_token', response.data.login.token);
-      window.location.assign('/');
+    try {
+      const response = await login({
+        variables: {
+          email: formData.email,
+          password: formData.password,
+        },
+      });
+      const token = response.data.login.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -56,6 +59,8 @@ const LoginForm = () => {
           required
         />
       </Form.Group>
+
+      {error && <h4 className='text-danger'>Invalide email or password</h4>}
 
       <Button variant='primary' type='submit'>
         Log In
