@@ -5,7 +5,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { CREATE_WORKSPACE } from '../../utils/mutations';
 
 const CustomModal = () => {
-  const [createWorkspace] = useMutation(CREATE_WORKSPACE);
+  const [createWorkspace, { error }] = useMutation(CREATE_WORKSPACE);
 
   const [name, setName] = useState('');
   const [show, setShow] = useState(false);
@@ -19,13 +19,17 @@ const CustomModal = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await createWorkspace({
-      variables: {
-        name,
-      },
-    });
-    handleClose();
-    window.location.assign(`/workspace/${response.data.createWorkspace._id}`);
+    try {
+      const response = await createWorkspace({
+        variables: {
+          name,
+        },
+      });
+      handleClose();
+      window.location.assign(`/workspace/${response.data.createWorkspace._id}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -51,6 +55,7 @@ const CustomModal = () => {
               />
             </Form.Group>
           </Form>
+          {error && <h4 className='text-danger'>Workspace name is exist</h4>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant='primary' onClick={handleSubmit}>

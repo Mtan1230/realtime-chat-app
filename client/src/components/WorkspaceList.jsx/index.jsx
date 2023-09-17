@@ -6,7 +6,6 @@ import { ListGroup } from 'react-bootstrap';
 
 const WorkspaceList = () => {
   const { loading, data } = useQuery(QUERY_ME);
-  console.log(data);
 
   return (
     <>
