@@ -3,3 +3,14 @@
   background-repeat: no-repeat;
   background-size: cover;
 } */
+
+.channelContainer {
+  display: flex;
+  flex-direction: column;
+  height: 89vh
+}
+
+.chatContainer {
+  flex-grow: 1;
+  overflow-y: 'auto'
+}

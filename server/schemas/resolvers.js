@@ -107,7 +107,25 @@ const resolvers = {
             );
           }
         }
-        return user
+        return user;
+      }
+      throw AuthenticationError;
+    },
+
+    sendMessage: async (_, { text, channelId }, context) => {
+      if (context.user) {
+        const message = await Message.create({
+          content: text,
+          createdBy: context.user._id,
+          channel: channelId,
+        });
+        await message.populate('createdBy');
+        const channel = await Channel.findOneAndUpdate(
+          { _id: channelId },
+          { $addToSet: { messages: message._id } },
+          { new: true }
+        );
+        return message;
       }
       throw AuthenticationError;
     },

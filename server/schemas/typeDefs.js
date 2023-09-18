@@ -50,6 +50,7 @@ const typeDefs = `#graphql
     createWorkspace(name: String!): Workspace
     createChannel(name: String!, public: Boolean!, workspaceId: ID!): Channel
     addCoworker(email: String!, workspaceId: ID!, channelId: ID): User
+    sendMessage(text: String!, channelId: ID!): Message
   }
 `;
 

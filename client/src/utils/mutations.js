@@ -65,3 +65,18 @@ export const ADD_COWORKER = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation sendMessage($text: String!, $channelId: ID!) {
+    sendMessage(text: $text, channelId: $channelId) {
+      _id
+      content
+      createdAt
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
