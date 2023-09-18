@@ -1,19 +1,22 @@
 const { Schema, model, Types } = require('mongoose');
 
-const channelSchema = require('./Channel');
-
 const workspaceSchema = new Schema({
   name: {
     type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
   },
   owner: {
     type: Types.ObjectId,
     ref: 'User',
   },
-  channels: [channelSchema],
+  channels: [
+    {
+      type: Types.ObjectId,
+      ref: 'Channel',
+    },
+  ],
   users: [
     {
       type: Types.ObjectId,

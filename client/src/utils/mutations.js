@@ -40,3 +40,16 @@ export const CREATE_WORKSPACE = gql`
     }
   }
 `;
+
+export const CREATE_CHANNEL = gql`
+  mutation createChannel($name: String!, $public: Boolean!, $workspaceId: ID!) {
+    createChannel(name: $name, public: $public, workspaceId: $workspaceId) {
+      _id
+      name
+      owner {
+        _id
+      }
+      public
+    }
+  }
+`;

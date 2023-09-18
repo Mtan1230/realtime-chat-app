@@ -28,4 +28,6 @@ const channelSchema = new Schema({
   ],
 });
 
-module.exports = channelSchema;
+const Channel = model('Channel', channelSchema)
+
+module.exports = Channel;

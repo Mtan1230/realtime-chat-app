@@ -41,12 +41,14 @@ const typeDefs = `#graphql
 
   type Query {
     me: User
+    workspace(_id: ID!): Workspace
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     signup(firstName: String!, lastName: String! email: String!, password: String!): Auth
     createWorkspace(name: String!): Workspace
+    createChannel(name: String!, public: Boolean!, workspaceId: ID!): Channel
   }
 `;
 

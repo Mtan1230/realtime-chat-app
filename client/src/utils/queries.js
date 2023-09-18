@@ -11,3 +11,22 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_WORKSPACE = gql`
+  query workspace($id: ID!) {
+    workspace(_id: $id) {
+      name
+      users {
+        _id
+        email
+        firstName
+        lastName
+      }
+      channels {
+        _id
+        name
+        public
+      }
+    }
+  }
+`;

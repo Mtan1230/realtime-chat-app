@@ -1,4 +1,4 @@
-const { User, Workspace, Message } = require('../models');
+const { User, Workspace, Message, Channel } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -6,6 +6,13 @@ const resolvers = {
     me: async (_, __, context) => {
       if (context.user) {
         return await User.findById(context.user._id).populate('workspaces');
+      }
+      throw AuthenticationError;
+    },
+
+    workspace: async (_, { _id }, context) => {
+      if (context.user) {
+        return await Workspace.findById(_id).populate('channels');
       }
       throw AuthenticationError;
     },
@@ -47,6 +54,23 @@ const resolvers = {
           { $addToSet: { workspaces: workspace._id } }
         );
         return workspace;
+      }
+      throw AuthenticationError;
+    },
+
+    createChannel: async (_, { name, public, workspaceId }, context) => {
+      if (context.user) {
+        const channel = await Channel.create({
+          name,
+          owner: context.user._id,
+          public,
+        })
+        const workspace = await Workspace.findOneAndUpdate(
+          { _id: workspaceId },
+          { $addToSet: { channels: channel } },
+          { new: true }
+        );
+        return channel;
       }
       throw AuthenticationError;
     },

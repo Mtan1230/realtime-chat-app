@@ -8,6 +8,7 @@ import App from './App.jsx';
 import HomePage from './pages/HomePage';
 import WorkspacePage from './pages/WorkspacePage';
 import ErrorPage from './pages/ErrorPage';
+import ChannelPage from './pages/ChannelPage'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,16 @@ const router = createBrowserRouter([
       {
         path: 'workspace/:id',
         element: <WorkspacePage />,
+        children: [
+          {
+            index: true,
+            element: <ChannelPage />,
+          },
+          {
+            path: ':channelId',
+            element: <ChannelPage />,
+          },
+        ],
       },
     ],
   },
