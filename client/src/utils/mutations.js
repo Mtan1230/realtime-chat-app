@@ -53,3 +53,15 @@ export const CREATE_CHANNEL = gql`
     }
   }
 `;
+
+export const ADD_COWORKER = gql`
+  mutation addCoworker($email: String!, $workspaceId: ID!, $channelId: ID) {
+    addCoworker(
+      email: $email
+      workspaceId: $workspaceId
+      channelId: $channelId
+    ) {
+      _id
+    }
+  }
+`;

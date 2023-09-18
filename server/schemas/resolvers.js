@@ -12,7 +12,9 @@ const resolvers = {
 
     workspace: async (_, { _id }, context) => {
       if (context.user) {
-        return await Workspace.findById(_id).populate('channels');
+        return await Workspace.findById(_id)
+          .populate('channels')
+          .populate('users');
       }
       throw AuthenticationError;
     },
@@ -48,6 +50,7 @@ const resolvers = {
         const workspace = await Workspace.create({
           name,
           owner: context.user._id,
+          users: [context.user._id],
         });
         await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -64,13 +67,47 @@ const resolvers = {
           name,
           owner: context.user._id,
           public,
-        })
+          users: [context.user._id],
+        });
         const workspace = await Workspace.findOneAndUpdate(
           { _id: workspaceId },
           { $addToSet: { channels: channel } },
           { new: true }
         );
         return channel;
+      }
+      throw AuthenticationError;
+    },
+
+    addCoworker: async (
+      _,
+      { email, workspaceId, channelId = null },
+      context
+    ) => {
+      if (context.user) {
+        const user = await User.findOneAndUpdate(
+          { email },
+          { $addToSet: { workspaces: workspaceId } },
+          { new: true }
+        );
+        const workspace = await Workspace.findOneAndUpdate(
+          { _id: workspaceId },
+          { $addToSet: { users: user._id } }
+        );
+        if (channelId) {
+          await Channel.findOneAndUpdate(
+            { _id: channelId },
+            { $addToSet: { users: user._id } }
+          );
+        } else {
+          for (const channel of workspace.channels) {
+            await Channel.findOneAndUpdate(
+              { _id: channel },
+              { $addToSet: { users: user._id } }
+            );
+          }
+        }
+        return user
       }
       throw AuthenticationError;
     },

@@ -49,6 +49,7 @@ const typeDefs = `#graphql
     signup(firstName: String!, lastName: String! email: String!, password: String!): Auth
     createWorkspace(name: String!): Workspace
     createChannel(name: String!, public: Boolean!, workspaceId: ID!): Channel
+    addCoworker(email: String!, workspaceId: ID!, channelId: ID): User
   }
 `;
 
