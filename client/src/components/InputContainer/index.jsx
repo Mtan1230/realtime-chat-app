@@ -24,8 +24,7 @@ const InputContainer = (props) => {
           channelId,
         }
       })
-      console.log(res)
-      props.addMessage(res.data.sendMessage)
+
       setText('');
     } catch (e) {
       console.log(JSON.parse(JSON.stringify(e)));

@@ -12,16 +12,19 @@ const ChannelPage = () => {
   const {loading, data} = useQuery(QUERY_CHANNEL, {
     variables: { id: channelId },
   });
-  console.log(data)
 
-  console.log(messages);
+  const channelMessages = data?.channel.messages || []
   const addMessage = (message) => {
     setMessages([...messages, message]);
   };
 
   return (
     <Container fluid className='channelContainer'>
-      <ChatContainer message />
+      <ChatContainer
+        addMessage={addMessage}
+        messages={messages}
+        channelMessages={channelMessages}
+      />
       <InputContainer addMessage={addMessage} />
     </Container>
   );

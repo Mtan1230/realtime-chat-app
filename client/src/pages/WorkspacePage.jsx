@@ -13,7 +13,7 @@ const WorkspacePage = () => {
   });
   const channels = data?.workspace.channels || null;
   const users = data?.workspace.users || null;
-  console.log(users);
+
   return (
     <>
       <Container fluid className=''>

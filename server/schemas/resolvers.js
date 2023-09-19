@@ -1,7 +1,25 @@
 const { User, Workspace, Message, Channel } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
+const { PubSub, withFilter } = require('graphql-subscriptions');
+const pubsub = new PubSub();
+
 const resolvers = {
+  Subscription: {
+    messageCreated: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator('MESSAGE_CREATED'),
+        (payload, variables) => {
+          // Only push an update if the message is on
+          // the correct channel for this operation
+          return (
+            payload.messageCreated.channel.toString() === variables.channelId
+          );
+        }
+      ),
+    },
+  },
+
   Query: {
     me: async (_, __, context) => {
       if (context.user) {
@@ -25,7 +43,7 @@ const resolvers = {
           .populate({
             path: 'messages',
             populate: {
-              path: 'createdBy', 
+              path: 'createdBy',
             },
           })
           .populate('users');
@@ -139,6 +157,7 @@ const resolvers = {
           { $addToSet: { messages: message._id } },
           { new: true }
         );
+        pubsub.publish('MESSAGE_CREATED', { messageCreated: message });
         return message;
       }
       throw AuthenticationError;

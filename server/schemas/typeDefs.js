@@ -53,6 +53,10 @@ const typeDefs = `#graphql
     addCoworker(email: String!, workspaceId: ID!, channelId: ID): User
     sendMessage(text: String!, channelId: ID!): Message
   }
+
+  type Subscription {
+  messageCreated(channelId: ID!): Message
+}
 `;
 
 module.exports = typeDefs;
