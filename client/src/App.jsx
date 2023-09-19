@@ -21,7 +21,7 @@ if (window.location.host === 'localhost:3000' ) {
 
   wsurl = `ws://localhost:3001/subscriptions`;
 } else {
-  wsurl = `ws://${window.location.host}/subscriptions`;
+  wsurl = `wss://${window.location.host}/subscriptions`;
 }
 
 const wsLink = new GraphQLWsLink(
