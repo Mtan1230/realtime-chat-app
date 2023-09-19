@@ -42,6 +42,7 @@ const typeDefs = `#graphql
   type Query {
     me: User
     workspace(_id: ID!): Workspace
+    channel(_id: ID!): Channel
   }
 
   type Mutation {

@@ -30,3 +30,19 @@ export const QUERY_WORKSPACE = gql`
     }
   }
 `;
+
+export const QUERY_CHANNEL = gql`
+  query channel($id: ID!) {
+    channel(_id: $id) {
+      messages {
+        _id
+        content
+        createdAt
+        createdBy {
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;

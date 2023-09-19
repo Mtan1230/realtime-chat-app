@@ -18,6 +18,20 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+
+    channel: async (_, { _id }, context) => {
+      if (context.user) {
+        return await Channel.findById(_id)
+          .populate({
+            path: 'messages',
+            populate: {
+              path: 'createdBy', 
+            },
+          })
+          .populate('users');
+      }
+      throw AuthenticationError;
+    },
   },
 
   Mutation: {
